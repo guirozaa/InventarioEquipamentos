@@ -8,8 +8,16 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface DepartamentoMapper {
-    DepartamentoMapper INSTANCE = Mappers.getMapper(DepartamentoMapper.class);
-    DepartamentoDTO departamentoToDTO(Departamento departamento);
-    Departamento DTOtoDepartamento(DepartamentoDTO departamentoDTO);
+    //DepartamentoMapper INSTANCE = Mappers.getMapper(DepartamentoMapper.class);
+//    DepartamentoDTO departamentoToDTO(Departamento departamento);
+//    Departamento DTOtoDepartamento(DepartamentoDTO departamentoDTO);
+DepartamentoMapper INSTANCE = Mappers.getMapper(DepartamentoMapper.class);
 
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "nome", source = "nome")  // Certifique-se de mapear o campo nome corretamente
+    DepartamentoDTO departamentoToDTO(Departamento departamento);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "nome", source = "nome")  // Certifique-se de mapear o campo nome corretamente
+    Departamento DTOtoDepartamento(DepartamentoDTO departamentoDTO);
 }

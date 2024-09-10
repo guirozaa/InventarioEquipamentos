@@ -34,8 +34,18 @@ public class DepartamentoController {
         }
     }
 
+//    @PostMapping("/")
+//    public ResponseEntity<DepartamentoDTO> create(@RequestBody DepartamentoDTO departamentoDTO){
+//        DepartamentoDTO savedDepartamento = departamentoService.save(departamentoDTO);
+//        return ResponseEntity.ok(savedDepartamento);
+//    }
+
     @PostMapping("/")
-    public ResponseEntity<DepartamentoDTO> create(@RequestBody DepartamentoDTO departamentoDTO){
+    public ResponseEntity<DepartamentoDTO> create(@RequestBody DepartamentoDTO departamentoDTO) {
+        if (departamentoDTO.getNome() == null || departamentoDTO.getNome().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);  // Retorna erro se nome for nulo ou vazio
+        }
+
         DepartamentoDTO savedDepartamento = departamentoService.save(departamentoDTO);
         return ResponseEntity.ok(savedDepartamento);
     }
