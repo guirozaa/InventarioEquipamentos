@@ -15,7 +15,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class EquipamentoServiceImpl implements EquipamentoService{
+public class EquipamentoServiceImpl implements EquipamentoService {
+
     @Autowired
     private EquipamentoRepository equipamentoRepository;
 
@@ -25,37 +26,35 @@ public class EquipamentoServiceImpl implements EquipamentoService{
     }
 
     @Override
-    public EquipamentoDTO save(EquipamentoDTO equipamentoDTO){
-        Equipamento equipamento = EquipamentoMapper.INSTANCE.DTOtoEquipamento(equipamentoDTO);
+    public EquipamentoDTO save(EquipamentoDTO equipamentoDTO) {
+        Equipamento equipamento = EquipamentoMapper.toModel(equipamentoDTO);
         equipamento = equipamentoRepository.save(equipamento);
-        return EquipamentoMapper.INSTANCE.equipamentoToDTO(equipamento);
+        return EquipamentoMapper.toDTO(equipamento);
     }
 
     @Override
     public Optional<EquipamentoDTO> findById(UUID id) {
-        return equipamentoRepository.findById(id).map(EquipamentoMapper.INSTANCE::equipamentoToDTO);
+        return equipamentoRepository.findById(id)
+                .map(EquipamentoMapper::toDTO);
     }
 
     @Override
     public Optional<EquipamentoDTO> update(UUID id, EquipamentoDTO equipamentoDTO) {
         if (equipamentoRepository.existsById(id)) {
-            Equipamento equipamento = EquipamentoMapper.INSTANCE.DTOtoEquipamento(equipamentoDTO);
+            Equipamento equipamento = EquipamentoMapper.toModel(equipamentoDTO);
             equipamento.setId(id);
             equipamentoRepository.save(equipamento);
-
-            return Optional.of(EquipamentoMapper.INSTANCE.equipamentoToDTO(equipamento));
-        } else {
-            System.out.println("Id não cadastrado");
+            return Optional.of(EquipamentoMapper.toDTO(equipamento));
         }
         return Optional.empty();
     }
+
     @Override
     public boolean deleteById(UUID id) {
-        if (equipamentoRepository.existsById(id)){
+        if (equipamentoRepository.existsById(id)) {
             equipamentoRepository.deleteById(id);
             return true;
         }
         return false;
     }
-
 }

@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @Service
 public class FornecedorServiceImpl implements FornecedorService {
+
     @Autowired
     private FornecedorRepository fornecedorRepository;
 
@@ -25,38 +26,36 @@ public class FornecedorServiceImpl implements FornecedorService {
     }
 
     @Override
-    public FornecedorDTO save(FornecedorDTO fornecedorDTO){
-        Fornecedor fornecedor = FornecedorMapper.INSTANCE.DTOtoFornecedor(fornecedorDTO);
+    public FornecedorDTO save(FornecedorDTO fornecedorDTO) {
+        Fornecedor fornecedor = FornecedorMapper.toModel(fornecedorDTO);
         fornecedor = fornecedorRepository.save(fornecedor);
-        return FornecedorMapper.INSTANCE.fornecedorToDTO(fornecedor);
+        return FornecedorMapper.toDTO(fornecedor);
     }
 
     @Override
     public Optional<FornecedorDTO> findById(UUID id) {
-        return fornecedorRepository.findById(id).map(FornecedorMapper.INSTANCE::fornecedorToDTO);
+        return fornecedorRepository.findById(id)
+                .map(FornecedorMapper::toDTO);
     }
 
     @Override
     public Optional<FornecedorDTO> update(UUID id, FornecedorDTO fornecedorDTO) {
         if (fornecedorRepository.existsById(id)) {
-            Fornecedor fornecedor = FornecedorMapper.INSTANCE.DTOtoFornecedor(fornecedorDTO);
+            Fornecedor fornecedor = FornecedorMapper.toModel(fornecedorDTO);
             fornecedor.setId(id);
             fornecedorRepository.save(fornecedor);
-
-            return Optional.of(FornecedorMapper.INSTANCE.fornecedorToDTO(fornecedor));
-        } else {
-            System.out.println("Id não cadastrado");
+            return Optional.of(FornecedorMapper.toDTO(fornecedor));
         }
         return Optional.empty();
     }
+
     @Override
     public boolean deleteById(UUID id) {
-        if (fornecedorRepository.existsById(id)){
+        if (fornecedorRepository.existsById(id)) {
             fornecedorRepository.deleteById(id);
             return true;
         }
         return false;
     }
-
 }
 

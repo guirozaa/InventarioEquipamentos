@@ -23,16 +23,16 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<Page<UsuarioDTO>> findAll(SpecTemplate.UsuarioSpec spec, Pageable page){
-        Page<Usuario> consultaPage = usuarioService.findAll(spec, page);
-
-        if(consultaPage.isEmpty()){
-            return new ResponseEntity<>(consultaPage.map(UsuarioMapper.INSTANCE::usuarioToDTO), HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(consultaPage.map(UsuarioMapper.INSTANCE::usuarioToDTO), HttpStatus.OK);
-        }
-    }
+//    @GetMapping("/findAll")
+//    public ResponseEntity<Page<UsuarioDTO>> findAll(SpecTemplate.UsuarioSpec spec, Pageable page){
+//        Page<Usuario> consultaPage = usuarioService.findAll(spec, page);
+//
+//        if(consultaPage.isEmpty()){
+//            return new ResponseEntity<>(consultaPage.map(UsuarioMapper.INSTANCE::usuarioToDTO), HttpStatus.NOT_FOUND);
+//        } else {
+//            return new ResponseEntity<>(consultaPage.map(UsuarioMapper.INSTANCE::usuarioToDTO), HttpStatus.OK);
+//        }
+//    }
     @PostMapping("/")
     public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO){
         UsuarioDTO savedUsuario = usuarioService.save(usuarioDTO);

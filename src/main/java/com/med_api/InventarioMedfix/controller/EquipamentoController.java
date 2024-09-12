@@ -23,16 +23,16 @@ public class EquipamentoController {
     @Autowired
     private EquipamentoService equipamentoService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<Page<EquipamentoDTO>> findAll(SpecTemplate.EquipamentoSpec spec, Pageable page){
-        Page<Equipamento> consultaPage = equipamentoService.findAll(spec, page);
-
-        if(consultaPage.isEmpty()){
-            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.OK);
-        }
-    }
+//    @GetMapping("/findAll")
+//    public ResponseEntity<Page<EquipamentoDTO>> findAll(SpecTemplate.EquipamentoSpec spec, Pageable page){
+//        Page<Equipamento> consultaPage = equipamentoService.findAll(spec, page);
+//
+//        if(consultaPage.isEmpty()){
+//            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.NOT_FOUND);
+//        } else {
+//            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.OK);
+//        }
+//    }
     @PostMapping("/")
     public ResponseEntity<EquipamentoDTO> create(@RequestBody EquipamentoDTO equipamentoDTO){
         EquipamentoDTO savedEquipamento = equipamentoService.save(equipamentoDTO);

@@ -2,22 +2,24 @@ package com.med_api.InventarioMedfix.mapper;
 
 import com.med_api.InventarioMedfix.dto.DepartamentoDTO;
 import com.med_api.InventarioMedfix.models.Departamento;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+public class DepartamentoMapper {
 
-@Mapper
-public interface DepartamentoMapper {
-    //DepartamentoMapper INSTANCE = Mappers.getMapper(DepartamentoMapper.class);
-//    DepartamentoDTO departamentoToDTO(Departamento departamento);
-//    Departamento DTOtoDepartamento(DepartamentoDTO departamentoDTO);
-DepartamentoMapper INSTANCE = Mappers.getMapper(DepartamentoMapper.class);
+    // Converte Model para DTO
+    public static DepartamentoDTO toDTO(Departamento departamento) {
+        if (departamento == null) {
+            return null;
+        }
+        return new DepartamentoDTO(departamento.getId(), departamento.getNome());
+    }
 
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "nome", source = "nome")  // Certifique-se de mapear o campo nome corretamente
-    DepartamentoDTO departamentoToDTO(Departamento departamento);
-
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "nome", source = "nome")  // Certifique-se de mapear o campo nome corretamente
-    Departamento DTOtoDepartamento(DepartamentoDTO departamentoDTO);
+    // Converte DTO para Model
+    public static Departamento toModel(DepartamentoDTO departamentoDTO) {
+        if (departamentoDTO == null) {
+            return null;
+        }
+        Departamento departamento = new Departamento();
+        departamento.setId(departamentoDTO.getId());
+        departamento.setNome(departamentoDTO.getNome());
+        return departamento;
+    }
 }

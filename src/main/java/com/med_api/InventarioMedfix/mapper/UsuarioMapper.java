@@ -7,9 +7,26 @@ import com.med_api.InventarioMedfix.models.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
-public interface UsuarioMapper {
-    UsuarioMapper INSTANCE = Mappers.getMapper(UsuarioMapper.class);
-    UsuarioDTO usuarioToDTO(Usuario usuario);
-    Usuario DTOtoUsuario(UsuarioDTO usuarioDTO);
+public class UsuarioMapper {
+
+    // Converte Model para DTO
+    public static UsuarioDTO toDTO(Usuario usuario) {
+        if (usuario == null) {
+            return null;
+        }
+        return new UsuarioDTO(usuario.getId(), usuario.getNome());
+    }
+
+    // Converte DTO para Model
+    public static Usuario toModel(UsuarioDTO usuarioDTO) {
+        if (usuarioDTO == null) {
+            return null;
+        }
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioDTO.getId());
+        usuario.setNome(usuarioDTO.getNome());
+        return usuario;
+    }
 }
+
+

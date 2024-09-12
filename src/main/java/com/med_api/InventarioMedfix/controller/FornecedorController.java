@@ -23,16 +23,16 @@ public class FornecedorController {
     @Autowired
     private FornecedorService fornecedorService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<Page<FornecedorDTO>> findAll(SpecTemplate.FornecedorSpec spec, Pageable page){
-        Page<Fornecedor> consultaPage = fornecedorService.findAll(spec, page);
-
-        if(consultaPage.isEmpty()){
-            return new ResponseEntity<>(consultaPage.map(FornecedorMapper.INSTANCE::fornecedorToDTO), HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(consultaPage.map(FornecedorMapper.INSTANCE::fornecedorToDTO), HttpStatus.OK);
-        }
-    }
+//    @GetMapping("/findAll")
+//    public ResponseEntity<Page<FornecedorDTO>> findAll(SpecTemplate.FornecedorSpec spec, Pageable page){
+//        Page<Fornecedor> consultaPage = fornecedorService.findAll(spec, page);
+//
+//        if(consultaPage.isEmpty()){
+//            return new ResponseEntity<>(consultaPage.map(FornecedorMapper.INSTANCE::fornecedorToDTO), HttpStatus.NOT_FOUND);
+//        } else {
+//            return new ResponseEntity<>(consultaPage.map(FornecedorMapper.INSTANCE::fornecedorToDTO), HttpStatus.OK);
+//        }
+//    }
 
     @PostMapping("/")
     public ResponseEntity<FornecedorDTO> create(@RequestBody FornecedorDTO fornecedorDTO){

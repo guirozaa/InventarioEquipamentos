@@ -12,46 +12,40 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.UUID;
 
+import java.util.UUID;
 
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/departamento")
 public class DepartamentoController {
+
     @Autowired
     private DepartamentoService departamentoService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<Page<DepartamentoDTO>> findAll(SpecTemplate.DepartamentoSpec spec, Pageable page){
-        Page<Departamento> consultaPage = departamentoService.findAll(spec, page);
-
-        if(consultaPage.isEmpty()){
-            return new ResponseEntity<>(consultaPage.map(DepartamentoMapper.INSTANCE::departamentoToDTO), HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(consultaPage.map(DepartamentoMapper.INSTANCE::departamentoToDTO), HttpStatus.OK);
-        }
-    }
-
-//    @PostMapping("/")
-//    public ResponseEntity<DepartamentoDTO> create(@RequestBody DepartamentoDTO departamentoDTO){
-//        DepartamentoDTO savedDepartamento = departamentoService.save(departamentoDTO);
-//        return ResponseEntity.ok(savedDepartamento);
+//    @GetMapping("/findAll")
+//    public ResponseEntity<Page<DepartamentoDTO>> findAll(SpecTemplate.DepartamentoSpec spec, Pageable page) {
+//        Page<Departamento> consultaPage = departamentoService.findAll(spec, page);
+//
+//        if (consultaPage.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        } else {
+//            return new ResponseEntity<>(consultaPage.map(DepartamentoMapper.INSTANCE::departamentoToDTO), HttpStatus.OK);
+//        }
 //    }
 
     @PostMapping("/")
     public ResponseEntity<DepartamentoDTO> create(@RequestBody DepartamentoDTO departamentoDTO) {
         if (departamentoDTO.getNome() == null || departamentoDTO.getNome().isEmpty()) {
-            return ResponseEntity.badRequest().body(null);  // Retorna erro se nome for nulo ou vazio
+            return ResponseEntity.badRequest().build();
         }
-
         DepartamentoDTO savedDepartamento = departamentoService.save(departamentoDTO);
         return ResponseEntity.ok(savedDepartamento);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DepartamentoDTO> getById(@PathVariable UUID id){
+    public ResponseEntity<DepartamentoDTO> getById(@PathVariable UUID id) {
         return departamentoService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

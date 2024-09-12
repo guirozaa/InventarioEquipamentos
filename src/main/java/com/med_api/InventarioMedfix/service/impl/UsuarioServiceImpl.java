@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -24,37 +25,35 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO save(UsuarioDTO usuarioDTO){
-        Usuario usuario = UsuarioMapper.INSTANCE.DTOtoUsuario(usuarioDTO);
+    public UsuarioDTO save(UsuarioDTO usuarioDTO) {
+        Usuario usuario = UsuarioMapper.toModel(usuarioDTO);
         usuario = usuarioRepository.save(usuario);
-        return UsuarioMapper.INSTANCE.usuarioToDTO(usuario);
+        return UsuarioMapper.toDTO(usuario);
     }
 
     @Override
     public Optional<UsuarioDTO> findById(UUID id) {
-        return usuarioRepository.findById(id).map(UsuarioMapper.INSTANCE::usuarioToDTO);
+        return usuarioRepository.findById(id)
+                .map(UsuarioMapper::toDTO);
     }
 
     @Override
     public Optional<UsuarioDTO> update(UUID id, UsuarioDTO usuarioDTO) {
         if (usuarioRepository.existsById(id)) {
-            Usuario usuario = UsuarioMapper.INSTANCE.DTOtoUsuario(usuarioDTO);
+            Usuario usuario = UsuarioMapper.toModel(usuarioDTO);
             usuario.setId(id);
             usuarioRepository.save(usuario);
-
-            return Optional.of(UsuarioMapper.INSTANCE.usuarioToDTO(usuario));
-        } else {
-            System.out.println("Id não cadastrado");
+            return Optional.of(UsuarioMapper.toDTO(usuario));
         }
         return Optional.empty();
     }
+
     @Override
     public boolean deleteById(UUID id) {
-        if (usuarioRepository.existsById(id)){
+        if (usuarioRepository.existsById(id)) {
             usuarioRepository.deleteById(id);
             return true;
         }
         return false;
     }
-
 }

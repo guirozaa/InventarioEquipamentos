@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class DepartamentoServiceImpl implements DepartamentoService {
+
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
@@ -24,35 +25,32 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     }
 
     @Override
-    public DepartamentoDTO save(DepartamentoDTO departamentoDTO){
-        Departamento departamento = DepartamentoMapper.INSTANCE.DTOtoDepartamento(departamentoDTO);
+    public DepartamentoDTO save(DepartamentoDTO departamentoDTO) {
+        Departamento departamento = DepartamentoMapper.toModel(departamentoDTO);
         departamento = departamentoRepository.save(departamento);
-        return DepartamentoMapper.INSTANCE.departamentoToDTO(departamento);
+        return DepartamentoMapper.toDTO(departamento);
     }
 
     @Override
     public Optional<DepartamentoDTO> findById(UUID id) {
-        return departamentoRepository.findById(id).map(DepartamentoMapper.INSTANCE::departamentoToDTO);
+        return departamentoRepository.findById(id)
+                .map(DepartamentoMapper::toDTO);
     }
 
     @Override
     public Optional<DepartamentoDTO> update(UUID id, DepartamentoDTO departamentoDTO) {
         if (departamentoRepository.existsById(id)) {
-            Departamento departamento = DepartamentoMapper.INSTANCE.DTOtoDepartamento(departamentoDTO);
+            Departamento departamento = DepartamentoMapper.toModel(departamentoDTO);
             departamento.setId(id);
             departamentoRepository.save(departamento);
-
-            return Optional.of(DepartamentoMapper.INSTANCE.departamentoToDTO(departamento));
-        } else {
-            System.out.println("Id não cadastrado");
+            return Optional.of(DepartamentoMapper.toDTO(departamento));
         }
         return Optional.empty();
     }
 
-
     @Override
     public boolean deleteById(UUID id) {
-        if (departamentoRepository.existsById(id)){
+        if (departamentoRepository.existsById(id)) {
             departamentoRepository.deleteById(id);
             return true;
         }
