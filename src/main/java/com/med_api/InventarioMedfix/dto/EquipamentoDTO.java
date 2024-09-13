@@ -20,4 +20,7 @@ public class EquipamentoDTO {
     private String sistemaOperacional;
     private String monitor;
     private String observacoes;
+    private UUID id_departamento;
+    private UUID id_fornecedor;
+    private UUID id_usuario;
 }
