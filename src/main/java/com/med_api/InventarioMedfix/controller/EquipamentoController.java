@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -23,16 +24,12 @@ public class EquipamentoController {
     @Autowired
     private EquipamentoService equipamentoService;
 
-//    @GetMapping("/findAll")
-//    public ResponseEntity<Page<EquipamentoDTO>> findAll(SpecTemplate.EquipamentoSpec spec, Pageable page){
-//        Page<Equipamento> consultaPage = equipamentoService.findAll(spec, page);
-//
-//        if(consultaPage.isEmpty()){
-//            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.NOT_FOUND);
-//        } else {
-//            return new ResponseEntity<>(consultaPage.map(EquipamentoMapper.INSTANCE::equipamentoToDTO), HttpStatus.OK);
-//        }
-//    }
+    @GetMapping("/")
+    public ResponseEntity<List<EquipamentoDTO>> findAll() {
+        List<EquipamentoDTO> equipamentos = equipamentoService.findAll();
+        return ResponseEntity.ok(equipamentos);
+    }
+
     @PostMapping("/")
     public ResponseEntity<EquipamentoDTO> create(@RequestBody EquipamentoDTO equipamentoDTO){
         EquipamentoDTO savedEquipamento = equipamentoService.save(equipamentoDTO);

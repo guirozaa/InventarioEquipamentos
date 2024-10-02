@@ -21,11 +21,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class EquipamentoServiceImpl implements EquipamentoService {
+public class EquipamentoServiceImpl implements EquipamentoService{
 
     @Autowired
     private EquipamentoRepository equipamentoRepository;
@@ -42,9 +43,13 @@ public class EquipamentoServiceImpl implements EquipamentoService {
 
 
     @Override
-    public Page<Equipamento> findAll(Specification<Equipamento> spec, Pageable page) {
-        return equipamentoRepository.findAll(spec, page);
+    public List<EquipamentoDTO> findAll() {
+        List<Equipamento> equipamentos = equipamentoRepository.findAll();
+        return equipamentos.stream()
+                .map(EquipamentoMapper::toDTO)
+                .toList();
     }
+
 
     @Override
     public EquipamentoDTO save(EquipamentoDTO equipamentoDTO) {

@@ -8,12 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface EquipamentoService {
-    Page<Equipamento> findAll(Specification<Equipamento> spec, Pageable page);
 
+    List<EquipamentoDTO> findAll();
     EquipamentoDTO save(EquipamentoDTO equipamentoDTO) ;
 
     Optional<EquipamentoDTO> findById(UUID id);
